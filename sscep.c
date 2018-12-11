@@ -10,8 +10,10 @@
 
 #include "sscep.h"
 #include "sscep_private.h"
+#include <curl/curl.h>
+#include <stdbool.h>
 
-static void make_http_msg(char* http_string,
+static void make_http_msg2(char* http_string,
                           const size_t http_string_size,
                           const char* host,
                           const char* path,
@@ -33,6 +35,59 @@ static void make_http_msg(char* http_string,
 	  message,
 	  extra_params,
 	  host);
+}
+static bool make_http_msg(char* http_string,
+                          const size_t http_string_size,
+                          const char* host,
+                          const char* path,
+                          const char* operation,
+                          const char* message,
+						  size_t message_length) 
+{
+	bool success = false;
+	CURL *curl = curl_easy_init();
+	CURLcode res;
+	char url[500] = "\0"; // TODO make better
+
+	/* create url */
+	snprintf(url, sizeof(url), "%s%s%s?operation=%s", host, p_flag ? "" : "/", path, operation);
+
+	if(curl) {
+
+		if (curl_easy_setopt(curl, CURLOPT_URL, url) != CURLE_OK)
+		{
+			goto error;
+		}
+		/* Now specify the POST data */ 
+		if (curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, message_length) != CURLE_OK)
+		{
+			goto error;
+		}
+		if (curl_easy_setopt(curl, CURLOPT_POSTFIELDS, message) != CURLE_OK)
+		{
+			goto error;
+		}
+	
+		/* Perform the request, res will get the return code */ 
+		res = curl_easy_perform(curl);
+		/* Check for errors */ 
+		if(res != CURLE_OK)
+		{
+			goto error;
+		}	
+	}
+
+	success = true;
+	goto exit;
+error:
+	fprintf(stderr, "curl failed: %s\n", curl_easy_strerror(res));
+exit:
+	if (curl)
+	{
+		curl_easy_cleanup(curl);
+	}
+	curl_global_cleanup();
+	return success;
 }
 
 static char *
@@ -103,8 +158,6 @@ main(int argc, char **argv) {
 	X509 				*cert=NULL;
 	int i;
 	int required_option_space;
-
-
 
 #ifdef WIN32
 	WORD wVersionRequested;
@@ -556,7 +609,7 @@ main(int argc, char **argv) {
 			if (!i_flag)
 				i_char = CA_IDENTIFIER;
 
-			make_http_msg(http_string, sizeof(http_string), host_name, dir_name, "GetCACert", i_char);
+			make_http_msg(http_string, sizeof(http_string), host_name, dir_name, "GetCACert", i_char, strlen(i_char));
 
 			if (d_flag){
 				printf("%s: requesting CA certificate\n", pname);
@@ -640,7 +693,7 @@ main(int argc, char **argv) {
 					i_char = CA_IDENTIFIER;
 
 				/* Forge the HTTP message */
-				make_http_msg(http_string, sizeof(http_string), host_name, dir_name, "GetNextCACert", i_char);
+				make_http_msg(http_string, sizeof(http_string), host_name, dir_name, "GetNextCACert", i_char, strlen(i_char));
 
 				if (d_flag){
 					printf("%s: requesting nextCA certificate\n", pname);
@@ -950,7 +1003,7 @@ not_enroll:
 				return 0;
 			}
 
-			make_http_msg(http_string, sizeof(http_string), host_name, dir_name, "PKIOperation", p);
+			make_http_msg(http_string, sizeof(http_string), host_name, dir_name, "PKIOperation", p, strlen(p));
 
 			if (d_flag)
 				fprintf(stdout, "%s: scep msg: %s",

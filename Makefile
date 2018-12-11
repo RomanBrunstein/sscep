@@ -12,7 +12,7 @@ OBJS    = sscep.o init.o net.o sceputils.o pkcs7.o ias.o fileutils.o configurati
 all: $(PROG)
 
 $(PROG): $(OBJS)
-	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) -lcrypto $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) -lcrypto -lcurl $(LDFLAGS)
 
 clean:
 	rm -f $(PROG) $(OBJS) core
