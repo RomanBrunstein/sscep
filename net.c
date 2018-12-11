@@ -10,6 +10,7 @@
 
 
 #include "sscep.h"
+#include "sscep_private.h"
 
 #ifdef WIN32
 void perror_w32 (const char *message)

@@ -147,50 +147,6 @@ int operation_flag;
 
 /* End of Global defines */
 
-
-/* Global variables */
-
-/* Program name */
-char *pname;
-
-/* Network timeout */
-int timeout;
-
-/* Certificates, requests, keys.. */
-X509 *cacert;
-X509 *encert;
-X509 *localcert;
-X509 *othercert;
-X509 *renewal_cert;
-X509_REQ *request;
-EVP_PKEY *rsa;
-EVP_PKEY *renewal_key;
-X509_CRL *crl;
-FILE *cafile;
-FILE *reqfile;
-FILE *otherfile;
-FILE *crlfile;
-
-/* Fingerprint, signing and encryption algorithms */
-EVP_MD *fp_alg;
-EVP_MD *sig_alg;
-EVP_CIPHER *enc_alg;
-
-/* OpenSSL OID handles */
-int nid_messageType;
-int nid_pkiStatus;
-int nid_failInfo;
-int nid_senderNonce;
-int nid_recipientNonce;
-int nid_transId;
-int nid_extensionReq;
-
-/* Global pkistatus */
-int pkistatus;
-
-/* End of Global variables */
-
-
 /* Structures */
 
 /* GETCertInital data structure */

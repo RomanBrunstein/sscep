@@ -12,6 +12,7 @@
  */
 
 #include "sscep.h"
+#include "sscep_private.h"
 #include "ias.h"
 
 typedef int (*i2d_X509Func)(void *, unsigned char **);

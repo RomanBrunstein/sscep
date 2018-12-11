@@ -12,6 +12,7 @@
 #include <malloc.h>
 #endif
 #include "sscep.h"
+#include "sscep_private.h"
 
 /* Open the inner, decrypted PKCS7 and try to write CRL.  */
 void

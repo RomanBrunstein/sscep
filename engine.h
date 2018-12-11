@@ -2,6 +2,7 @@
 #define ENGINE_H
 
 #include "sscep.h"
+#include "sscep_private.h"
 #define CAPI_CMD_STORE_NAME		(ENGINE_CMD_BASE + 12) //this is the basic command to change the storename
 #define CAPI_CMD_STORE_FLAGS	(ENGINE_CMD_BASE + 13) //this is used to set the storelocation
 ENGINE *scep_engine_init(ENGINE *e);

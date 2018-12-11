@@ -9,6 +9,7 @@
 
 
 #include "sscep.h"
+#include "sscep_private.h"
 
 static void make_http_msg(char* http_string,
                           const size_t http_string_size,

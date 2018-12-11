@@ -1,4 +1,5 @@
 #include "sscep.h"
+#include "sscep_private.h"
 
 
 

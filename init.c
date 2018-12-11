@@ -7,6 +7,9 @@
 /* Configuration file initialization */
 
 #include "sscep.h"
+#include "sscep_private.h"
+#include "sscep_private.h"
+
 #ifdef WIN32
 #define strdup(str) _strdup(str)
 #endif

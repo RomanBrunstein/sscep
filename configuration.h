@@ -13,6 +13,7 @@
 #include <openssl/conf.h>
 #include <openssl/err.h>
 #include "sscep.h"
+#include "sscep_private.h"
 
 /*
  * Definition of sections for configuration

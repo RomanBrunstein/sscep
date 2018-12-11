@@ -7,6 +7,7 @@
 /* Misc. SCEP routines */
 
 #include "sscep.h"
+#include "sscep_private.h"
 #include "ias.h"
 
 /*
